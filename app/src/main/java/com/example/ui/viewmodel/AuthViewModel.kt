@@ -1,9 +1,12 @@
 package com.example.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 sealed interface AuthUiState {
     object Idle : AuthUiState
@@ -105,16 +108,10 @@ class AuthViewModel : ViewModel() {
         }
 
         _uiState.value = AuthUiState.Loading
-        // Simulate background login network step
-        kotlinx.coroutines.GlobalScope.run {
-            // Note: We use a simple coroutine to display a visual loading delay in the applet
-            val timer = java.util.Timer()
-            timer.schedule(object : java.util.TimerTask() {
-                override fun run() {
-                    _uiState.value = AuthUiState.Success("Log in successful!")
-                    onSuccess()
-                }
-            }, 1200)
+        viewModelScope.launch {
+            delay(1200)
+            _uiState.value = AuthUiState.Success("Log in successful!")
+            onSuccess()
         }
     }
 
@@ -151,12 +148,10 @@ class AuthViewModel : ViewModel() {
         }
 
         _uiState.value = AuthUiState.Loading
-        val timer = java.util.Timer()
-        timer.schedule(object : java.util.TimerTask() {
-            override fun run() {
-                _uiState.value = AuthUiState.Success("Account created successfully!")
-                onSuccess()
-            }
-        }, 1500)
+        viewModelScope.launch {
+            delay(1500)
+            _uiState.value = AuthUiState.Success("Account created successfully!")
+            onSuccess()
+        }
     }
 }
