@@ -1,0 +1,6 @@
+{
+  "name": "SpendTrack",
+  "description": "Scan receipts, track expenses, and gain insights effortlessly with SpendTrack.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
